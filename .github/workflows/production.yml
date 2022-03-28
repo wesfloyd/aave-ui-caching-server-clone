@@ -13,7 +13,7 @@ jobs:
     outputs:
       image_name: ${{ steps.build.outputs.image_name }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - uses: ./.github/actions/build
         name: Build image
@@ -38,9 +38,10 @@ jobs:
       - name: GCP Auth
         uses: google-github-actions/auth@v0.4.0
         with:
-          credentials_json: ${{ secrets.GCP_SA_KEY }}
+          workload_identity_provider: ${{ secrets.GCP_workload_identity_provider }}
+          service_account: ${{ secrets.GCP_service_account }}
       - name: Get GKE credentials
-        uses: google-github-actions/get-gke-credentials@v0.4.0
+        uses: google-github-actions/get-gke-credentials@v0.6.0
         with:
           cluster_name: ${{ secrets.GKE_CLUSTER }}
           location: ${{ secrets.GKE_CLUSTER_REGION }}
