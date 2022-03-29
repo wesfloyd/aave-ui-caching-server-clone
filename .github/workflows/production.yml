@@ -40,12 +40,13 @@ jobs:
         with:
           workload_identity_provider: ${{ secrets.GCP_workload_identity_provider }}
           service_account: ${{ secrets.GCP_service_account }}
+          token_format: 'access_token'
+          
       - name: Get GKE credentials
-        uses: google-github-actions/get-gke-credentials@v0.6.0
+        uses: google-github-actions/get-gke-credentials
         with:
           cluster_name: ${{ secrets.GKE_CLUSTER }}
           location: ${{ secrets.GKE_CLUSTER_REGION }}
-
       - name: Render kdsl resources into yaml
         env: 
           MAINNET_RPC: '${{ secrets.MAINNET_RPC }}'
